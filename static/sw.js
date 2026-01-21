@@ -1,8 +1,10 @@
-self.addEventListener('install', (e) => {
-  console.log('[Service Worker] Install');
+const CACHE_NAME = 'mediguard-v1';
+// No guardamos archivos en caché por ahora para no complicar, 
+// pero el evento 'fetch' debe estar presente.
+self.addEventListener('install', (event) => {
+    self.skipWaiting();
 });
 
-self.addEventListener('fetch', (e) => {
-  // Estrategia básica: solo deja pasar las peticiones
-  e.respondWith(fetch(e.request));
+self.addEventListener('fetch', (event) => {
+    event.respondWith(fetch(event.request));
 });

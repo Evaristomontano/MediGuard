@@ -50,10 +50,16 @@
             <h2 data-i18n="header_subtitle" class="text-2xl font-bold text-slate-800 mb-2">Prescription Analyzer</h2>
             <p data-i18n="upload_desc" class="text-slate-500 mb-8">Upload a clear photo of your medication list to check for FDA-documented risks.</p>
             <div class="fixed top-4 right-4 flex space-x-2 bg-white p-2 rounded-full shadow-md z-50">
-                <button onclick="setLanguage('en')" class="hover:scale-110 transition-transform">🇺🇸</button>
-                <button onclick="setLanguage('es')" class="hover:scale-110 transition-transform">es</button>
-                <button onclick="setLanguage('de')" class="hover:scale-110 transition-transform">🇩🇪</button>
-                <div class="w-px h-4 bg-slate-200 mx-1"></div>
+                <button onclick="setLanguage('en')" class="hover:scale-110 transition-transform w-6">
+                    <img src="https://flagcdn.com/us.svg" alt="English">
+                </button>
+                <button onclick="setLanguage('es')" class="hover:scale-110 transition-transform w-6">
+                    <img src="https://flagcdn.com/es.svg" alt="Español">
+                </button>
+                <button onclick="setLanguage('de')" class="hover:scale-110 transition-transform w-6">
+                    <img src="https://flagcdn.com/de.svg" alt="Deutsch">
+                </button>
+    <div class="w-px h-4 bg-slate-200 mx-1"></div>
 
                 <a href="/settings" class="p-1 hover:rotate-45 transition-transform text-slate-400 hover:text-blue-600" title="API Settings">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
