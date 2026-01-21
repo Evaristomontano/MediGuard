@@ -13,9 +13,14 @@ from fastapi.middleware.cors import CORSMiddleware
 from PIL import Image
 import pillow_heif
 import httpx
-
+from fastapi.responses import FileResponse # Añade esto a tus imports
+from fastapi.staticfiles import StaticFiles # Añade esto a tus imports
 # AI Providers
 import google.generativeai as genai
+
+
+
+
 
 # --- 1. CONFIGURATION & SETUP ---
 
@@ -37,6 +42,15 @@ app = FastAPI(
     description="Backend for drug interaction detection using Multi-LLM architecture.",
     version="2.0.0"
 )
+
+@app.get("/")
+async def read_index():
+    return FileResponse('index.html')
+
+# 3. Ruta para el settings.html
+@app.get("/settings")
+async def read_settings():
+    return FileResponse('settings.html')
 
 # CORS Configuration
 app.add_middleware(
