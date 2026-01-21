@@ -1,0 +1,29 @@
+How to Use
+Run the script:
+
+    python main.py
+
+*Calibration (Mandatory):
+
+Sit Up Straight: Get into your ideal, comfortable posture.
+
+Wait until the bottom status text turns yellow (meaning the system has a stable average).
+
+Press the [C] key to save your ideal posture as the reference.
+
+*Monitoring:
+
+If your posture degrades, a countdown (Yellow Warning) starts.
+
+If you fail to adjust within the time limit (default 5s), a loud Alert (Red) will sound.
+
+*Customization
+You can adjust the system's strictness in the main() function:
+
+calibration_margin: Sets the tolerance (in degrees) before the warning starts. Lower value = more strict.
+
+alert_duration_threshold: Time (in seconds) before the full alert is triggered.
+
+Z_PROTRUSION_THRESHOLD (in process_posture_frame): Adjusts how sensitive the system is to you leaning close to the screen.
+
+Created with Python, MediaPipe, and OpenCV.

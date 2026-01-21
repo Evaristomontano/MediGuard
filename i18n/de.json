@@ -1,0 +1,18 @@
+{
+        "title": "MediGuard - Sicherheit Zuerst",
+        "header_subtitle": "Rezept-Analysator",
+        "upload_desc": "Laden Sie ein klares Foto Ihrer Medikamentenliste hoch, um FDA-dokumentierte Risiken zu prüfen.",
+        "drop_text": "Tippen zum Hochladen oder Foto hierher ziehen",
+        "drop_subtext": "JPG, PNG oder HEIC unterstützt",
+        "btn_analyze": "Medikamente Analysieren",
+        "tab_meds": "Erkannte Medikamente",
+        "tab_report": "Sicherheitsbericht",
+        "no_risk": "Keine signifikanten Wechselwirkungen in der FDA-Datenbank gefunden.",
+        "btn_pdf": "Medizinischen Bericht herunterladen (PDF)",
+        "disclaimer_default": "Diese Analyse basiert auf FDA-Etiketten. Konsultieren Sie immer einen Arzt.",
+        "pdf_med_col": "Medikamentenpaar",
+        "pdf_severity_col": "Schweregrad",
+        "pdf_risk_col": "Risikobeschreibung",
+        "pdf_action_col": "Empfohlene Maßnahme",
+        "pdf_title": "Klinischer Interaktionsbericht"
+    }

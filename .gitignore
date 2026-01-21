@@ -1,0 +1,9 @@
+build/
+dist/
+main.build/
+main.dist/
+venv/
+__pycache__/
+*.exe
+*.xml
+*.spec

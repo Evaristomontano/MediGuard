@@ -1,0 +1,18 @@
+{
+        "title": "MediGuard - Safety First",
+        "header_subtitle": "Prescription Analyzer",
+        "upload_desc": "Upload a clear photo of your medication list to check for FDA-documented risks.",
+        "drop_text": "Tap to upload or drop photo",
+        "drop_subtext": "JPG, PNG or HEIC supported",
+        "btn_analyze": "Analyze Medications",
+        "tab_meds": "Detected Meds",
+        "tab_report": "Safety Report",
+        "no_risk": "No significant interactions found in the FDA database.",
+        "btn_pdf": "Download Medical Report (PDF)",
+        "disclaimer_default": "This analysis is based on available FDA labels. Always consult a healthcare professional.",
+        "pdf_med_col": "Medication Pair",
+        "pdf_severity_col": "Severity",
+        "pdf_risk_col": "Risk Description",
+        "pdf_action_col": "Recommended Action",
+        "pdf_title": "Clinical Interaction Report"
+    }

@@ -1,0 +1,18 @@
+ {
+    "title": "MediGuard - Seguridad Ante Todo",
+        "header_subtitle": "Analizador de Recetas",
+        "upload_desc": "Sube una foto clara de tu lista de medicamentos para detectar riesgos documentados por la FDA.",
+        "drop_text": "Toca para subir o arrastra la foto",
+        "drop_subtext": "Formatos JPG, PNG o HEIC soportados",
+        "btn_analyze": "Analizar Medicamentos",
+        "tab_meds": "Medicinas Detectadas",
+        "tab_report": "Informe de Seguridad",
+        "no_risk": "No se encontraron interacciones significativas en la base de datos de la FDA.",
+        "btn_pdf": "Descargar Reporte Médico (PDF)",
+        "disclaimer_default": "Este análisis se basa en etiquetas de la FDA. Consulte siempre a un profesional de la salud.",
+        "pdf_med_col": "Pareja de Medicamentos",
+        "pdf_severity_col": "Gravedad",
+        "pdf_risk_col": "Descripción del Riesgo",
+        "pdf_action_col": "Acción Recomendada",
+        "pdf_title": "Informe Clínico de Interacciones"
+}
