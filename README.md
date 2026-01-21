@@ -1,16 +1,7 @@
----
-title: MediGuard
-emoji: 🛡️
-colorFrom: blue
-colorTo: gray
-sdk: docker
-app_port: 7860
-pinned: false
-license: mit
----
+## Live Demo
+You can try the application live on Hugging Face Spaces: 
+[MediGuard on Hugging Face](https://huggingface.co/spaces/EvaMontano/MediGuard)
 
-# MediGuard: AI-Powered Drug Interaction Analyzer
-...
 
 # MediGuard: AI-Powered Drug Interaction Analyzer
 
