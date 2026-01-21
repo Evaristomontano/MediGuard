@@ -2,139 +2,139 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-i18n="title">MediGuard - Safety First</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title data-i18n="title">MediGuard - Settings</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        .loader { border-top-color: #3498db; animation: spinner 1.5s linear infinite; }
-        @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    </style>
-    <style>
-        /* Evita que el modo oscuro invierta los colores de las banderas */
-        img {
-            filter: none !important;
+        :root { color-scheme: light !important; }
+        body { 
+            font-family: 'Inter', sans-serif !important; 
+            background-color: #f8fafc !important; 
+            color: #1e293b !important;
         }
+        img, .flag-img { filter: none !important; -webkit-filter: none !important; }
         
-        @media (prefers-color-scheme: dark) {
-            img {
-                /* Algunos navegadores aplican filtros automáticos, esto los anula */
-                color-scheme: light;
-            }
+        /* Botón Back reforzado para evitar desaparición en móviles */
+        .back-btn-solid {
+            display: flex !important;
+            align-items: center !important;
+            background-color: #eff6ff !important;
+            color: #1d4ed8 !important;
+            padding: 10px 16px !important;
+            border-radius: 12px !important;
+            font-weight: 700 !important;
+            border: 1px solid #dbeafe !important;
+            text-decoration: none !important;
+            transition: all 0.2s;
         }
+        .back-btn-solid:active { transform: scale(0.95); }
     </style>
-        <link rel="manifest" href="/static/manifest.json">
+    <link rel="manifest" href="/static/manifest.json">
     <meta name="theme-color" content="#1d4ed8">
-    <script>
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/static/sw.js');
-        }
-    </script>
 </head>
-</head>
-<body class="bg-slate-50 font-sans min-h-screen">
+<body class="bg-slate-50 min-h-screen">
 
-    <header class="bg-white border-b border-slate-200 py-4 mb-8">
+    <header class="bg-white border-b border-slate-200 py-6 mb-8 shadow-sm">
         <div class="max-w-4xl mx-auto px-4 flex items-center justify-between">
             <h1 class="text-xl font-bold text-blue-700 uppercase tracking-wider">MediGuard</h1>
-            <div class="flex items-center space-x-4">
-               
-                <a href="/" class="text-blue-600 hover:text-blue-800 text-sm font-bold flex items-center">
-                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-                    <span data-i18n="btn_back">Back</span>
-                </a>
-            </div>
+            
+            <a href="/" class="back-btn-solid">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                <span data-i18n="btn_back">Back</span>
+            </a>
         </div>
     </header>
 
-    <div class="fixed top-4 right-4 flex space-x-3 bg-white p-2 px-4 rounded-full shadow-md z-50 items-center">
-    <button onclick="setLanguage('en')" class="hover:scale-110 transition-transform w-6">
-        <img src="https://flagcdn.com/us.svg" alt="English" class="block">
-    </button>
-    <button onclick="setLanguage('es')" class="hover:scale-110 transition-transform w-6">
-        <img src="https://flagcdn.com/es.svg" alt="Español" class="block">
-    </button>
-    <button onclick="setLanguage('de')" class="hover:scale-110 transition-transform w-6">
-        <img src="https://flagcdn.com/de.svg" alt="Deutsch" class="block">
-    </button>
-    
-    <div class="w-px h-4 bg-slate-200 mx-1"></div>
+    <<div class="fixed top-4 right-4 flex space-x-3 bg-white p-2 px-4 rounded-full shadow-lg z-50 items-center border border-slate-200">
+        <button onclick="setLanguage('en')" class="hover:scale-110 transition-transform w-6">
+            <img src="https://flagcdn.com/us.svg" alt="EN" class="flag-img block">
+        </button>
+        <button onclick="setLanguage('es')" class="hover:scale-110 transition-transform w-6">
+            <img src="https://flagcdn.com/es.svg" alt="ES" class="flag-img block">
+        </button>
+        <button onclick="setLanguage('de')" class="hover:scale-110 transition-transform w-6">
+            <img src="https://flagcdn.com/de.svg" alt="DE" class="flag-img block">
+        </button>
+         <div class="w-px h-4 bg-slate-200 mx-1"></div>
+    </div>
 
-</div>
     <main class="max-w-2xl mx-auto px-6 pb-20">
         <section class="bg-white rounded-2xl shadow-xl p-8 mb-8 border border-slate-100">
             <h2 data-i18n="settings_title" class="text-slate-800 font-bold text-2xl mb-4">Gemini API Configuration</h2>
-            <p data-i18n="settings_desc" class="text-slate-500 text-sm mb-8">Your key is stored locally in your browser and never sent to our servers directly.</p>
+            <p data-i18n="settings_desc" class="text-slate-500 text-sm mb-8 italic">Saved only in your browser.</p>
             
             <div class="space-y-6">
                 <div>
                     <label data-i18n="label_key" class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">API Key</label>
-                    <input type="password" id="apiKeyInput" placeholder="AIzaSy..." 
-                        class="w-full p-4 rounded-xl border border-slate-200 bg-slate-50 focus:ring-2 focus:ring-blue-500 focus:bg-white outline-none transition-all font-mono text-sm">
+                    <input type="password" id="apiKeyInput" placeholder="AIza..." 
+                        class="w-full p-4 rounded-xl border border-slate-200 bg-slate-50 focus:ring-2 focus:ring-blue-500 outline-none transition-all font-mono">
                 </div>
                 
                 <div class="bg-blue-50 rounded-xl p-6 mb-6">
-                    <h3 data-i18n="guide_title" class="font-bold text-blue-800 mb-3">Quick Setup Guide</h3>
+                    <h3 data-i18n="guide_title" class="font-bold text-blue-800 mb-3">Setup Guide</h3>
                     <ul class="text-sm text-blue-700 space-y-3">
                         <li id="step1">1. Visit Google AI Studio.</li>
                         <li id="step2">2. Click "Create API Key".</li>
-                        <li id="step3">3. Paste your key above and save.</li>
+                        <li id="step3">3. Paste it here.</li>
                     </ul>
                     <a href="https://aistudio.google.com/app/apikey" target="_blank" class="inline-block mt-4 text-sm font-bold underline text-blue-600">Google AI Studio →</a>
                 </div>
 
-                <button onclick="saveKey()" data-i18n="btn_save" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-lg transition-all transform active:scale-[0.98]">
+                <button onclick="saveKey()" data-i18n="btn_save" class="w-full bg-blue-600 text-white font-bold py-4 rounded-xl shadow-lg transition-transform active:scale-95">
                     Save Configuration
                 </button>
-                <p id="saveMsg" class="text-center text-sm text-green-600 font-medium hidden" data-i18n="save_success">✓ Key saved successfully!</p>
+                <p id="saveMsg" class="text-center text-sm text-green-600 font-medium hidden" data-i18n="save_success">✓ Saved!</p>
             </div>
         </section>
     </main>
 
     <script>
         let currentLang = localStorage.getItem('preferredLang') || 'en';
-
         const translations = {
             en: {
                 title: "MediGuard - Settings",
                 btn_back: "Back",
                 settings_title: "Gemini API Configuration",
-                settings_desc: "To keep this tool free, we use your own Gemini 2.0 Flash key. It is stored safely in your browser.",
+                settings_desc: "We use your own Gemini key to keep this tool free. It stays in your browser.",
                 label_key: "Your API Key",
-                guide_title: "How to get a free key?",
+                guide_title: "How to get a key?",
                 step1: "1. Visit Google AI Studio.",
-                step2: "2. Click 'Create API Key' (it's free).",
-                step3: "3. Copy the key and paste it here.",
+                step2: "2. Click 'Create API Key'.",
+                step3: "3. Copy and paste it here.",
                 btn_save: "Save Configuration",
                 save_success: "✓ Configuration saved!",
-                alert_empty: "Please enter a valid key."
+                alert_empty: "Please enter a key."
             },
             es: {
                 title: "MediGuard - Configuración",
                 btn_back: "Volver",
                 settings_title: "Configuración de Gemini API",
-                settings_desc: "Para mantener esta app gratuita, usamos tu propia clave de Gemini 2.0 Flash. Se guarda solo en tu navegador.",
+                settings_desc: "Usamos tu propia clave de Gemini para que la app sea gratis. Se guarda en tu navegador.",
                 label_key: "Tu Clave API",
-                guide_title: "¿Cómo conseguir una clave gratis?",
+                guide_title: "¿Cómo conseguir una clave?",
                 step1: "1. Entra en Google AI Studio.",
-                step2: "2. Pulsa en 'Create API Key' (es gratis).",
-                step3: "3. Copia la clave y pégala aquí.",
+                step2: "2. Pulsa en 'Create API Key'.",
+                step3: "3. Copia y pega la clave aquí.",
                 btn_save: "Guardar Configuración",
-                save_success: "✓ ¡Configuración guardada!",
-                alert_empty: "Por favor, introduce una clave válida."
+                save_success: "✓ ¡Guardado!",
+                alert_empty: "Introduce una clave."
             },
             de: {
                 title: "MediGuard - Einstellungen",
                 btn_back: "Zurück",
                 settings_title: "Gemini API Konfiguration",
-                settings_desc: "Um dieses Tool kostenlos zu halten, nutzen wir Ihren eigenen Gemini Key. Er wird nur lokal gespeichert.",
-                label_key: "Ihr API-Key",
-                guide_title: "Wie bekomme ich einen Key?",
-                step1: "1. Besuchen Sie Google AI Studio.",
-                step2: "2. Klicken Sie auf 'Create API Key' (kostenlos).",
-                step3: "3. Key kopieren und hier einfügen.",
-                btn_save: "Konfiguration Speichern",
+                settings_desc: "Wir nutzen Ihren Key, um das Tool kostenlos zu halten. Er bleibt lokal.",
+                label_key: "API-Key",
+                guide_title: "Key erhalten?",
+                step1: "1. Google AI Studio öffnen.",
+                step2: "2. 'Create API Key' klicken.",
+                step3: "3. Hier einfügen.",
+                btn_save: "Speichern",
                 save_success: "✓ Gespeichert!",
-                alert_empty: "Bitte geben Sie einen gültigen Key ein."
+                alert_empty: "Key eingeben."
             }
         };
 
@@ -145,16 +145,13 @@
                 const key = el.getAttribute('data-i18n');
                 if (dict[key]) el.innerText = dict[key];
             });
-            // Casos especiales para la lista
             document.getElementById('step1').innerText = dict.step1;
             document.getElementById('step2').innerText = dict.step2;
             document.getElementById('step3').innerText = dict.step3;
-
             document.title = dict.title;
             localStorage.setItem('preferredLang', lang);
         }
 
-        // Load existing key and language
         document.addEventListener('DOMContentLoaded', () => {
             setLanguage(currentLang);
             document.getElementById('apiKeyInput').value = localStorage.getItem('user_gemini_key') || '';
@@ -164,12 +161,8 @@
             const key = document.getElementById('apiKeyInput').value.trim();
             if (key) {
                 localStorage.setItem('user_gemini_key', key);
-                const msg = document.getElementById('saveMsg');
-                msg.classList.remove('hidden');
-                setTimeout(() => {
-                    msg.classList.add('hidden');
-                    window.location.href = '/';
-                }, 1500);
+                document.getElementById('saveMsg').classList.remove('hidden');
+                setTimeout(() => window.location.href = '/', 1000);
             } else {
                 alert(translations[currentLang].alert_empty);
             }
