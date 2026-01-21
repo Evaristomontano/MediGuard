@@ -10,7 +10,6 @@ import base64
 # Third-party imports
 from fastapi import FastAPI, File, UploadFile, HTTPException, Header
 from fastapi.middleware.cors import CORSMiddleware
-from dotenv import load_dotenv
 from PIL import Image
 import pillow_heif
 import httpx
@@ -27,9 +26,6 @@ logging.basicConfig(
     handlers=[logging.StreamHandler()]
 )
 logger = logging.getLogger(__name__)
-
-# Load environment variables
-load_dotenv()
 
 
 # Register HEIF opener for iPhone photos support
