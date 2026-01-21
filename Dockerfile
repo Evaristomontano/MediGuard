@@ -10,7 +10,7 @@ WORKDIR /app
 
 # Copiar dependencias e instalar
 COPY --chown=user requirements.txt .
-RUN pip install --no-cache-dir --upgrade -r Requirements.txt
+RUN pip install --no-cache-dir --upgrade -r requirements.txt
 
 # Copiar el código del proyecto
 COPY --chown=user . .
