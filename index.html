@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="title">MediGuard - Safety First</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+    <style>
+        .loader { border-top-color: #3498db; animation: spinner 1.5s linear infinite; }
+        @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+    <link rel="manifest" href="/static/manifest.json">
+    <meta name="theme-color" content="#1d4ed8">
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/static/sw.js');
+        }
+    </script>
+</head>
+
+<body class="bg-slate-50 font-sans min-h-screen">
+
+    <header class="bg-white border-b border-slate-200 py-4 mb-8">
+        <div class="max-w-4xl mx-auto px-4 flex items-center justify-between">
+            <h1 class="text-xl font-bold text-blue-700 uppercase tracking-wider">MediGuard</h1>
+            <span class="text-xs font-semibold px-2 py-1 bg-green-100 text-green-700 rounded">v1.1 Live</span>
+        </div>
+    </header>
+    <div id="apiKeyWarning" class="max-w-2xl mx-auto px-4 mb-4 hidden">
+        <div class="bg-amber-50 border-l-4 border-amber-400 p-4 rounded-r-lg flex justify-between items-center">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <svg class="h-5 w-5 text-amber-400" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+                <div class="ml-3">
+                    <p class="text-sm text-amber-700 font-medium" data-i18n="api_warning">
+                        API Key not configured. Analysis will not work.
+                    </p>
+                </div>
+            </div>
+            <a href="/settings" class="text-sm font-bold text-amber-700 underline hover:text-amber-600">Config</a>
+        </div>
+    </div>
+    <main class="max-w-2xl mx-auto px-4 pb-12">
+        <div class="bg-white rounded-2xl shadow-xl p-6 md:p-10">
+            <h2 data-i18n="header_subtitle" class="text-2xl font-bold text-slate-800 mb-2">Prescription Analyzer</h2>
+            <p data-i18n="upload_desc" class="text-slate-500 mb-8">Upload a clear photo of your medication list to check for FDA-documented risks.</p>
+            <div class="fixed top-4 right-4 flex space-x-2 bg-white p-2 rounded-full shadow-md z-50">
+                <button onclick="setLanguage('en')" class="hover:scale-110 transition-transform w-6">
+                    <img src="https://flagcdn.com/us.svg" alt="English">
+                </button>
+                <button onclick="setLanguage('es')" class="hover:scale-110 transition-transform w-6">
+                    <img src="https://flagcdn.com/es.svg" alt="Español">
+                </button>
+                <button onclick="setLanguage('de')" class="hover:scale-110 transition-transform w-6">
+                    <img src="https://flagcdn.com/de.svg" alt="Deutsch">
+                </button>
+    <div class="w-px h-4 bg-slate-200 mx-1"></div>
+
+                <a href="/settings" class="p-1 hover:rotate-45 transition-transform text-slate-400 hover:text-blue-600" title="API Settings">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                </a>
+            </div>
+            <div id="dropzone" class="border-2 border-dashed border-slate-300 rounded-xl p-8 text-center hover:border-blue-500 transition-all cursor-pointer mb-6 bg-slate-50">
+                <input type="file" id="fileInput" class="hidden" accept="image/*">
+               <div id="uploadText">
+                    <p data-i18n="drop_text" class="text-lg text-slate-700">Tap to upload or drop photo</p>
+                    <p data-i18n="drop_subtext" class="text-sm text-slate-400">JPG, PNG or HEIC supported</p>
+                </div>
+            </div>
+
+            <button id="btnAnalyze" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl transition-all flex justify-center items-center shadow-lg disabled:opacity-50">
+                <span id="btnLabel" data-i18n="btn_analyze">Analyze Medications</span>
+                <div id="loading" class="hidden loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-6 w-6 ml-3"></div>
+            </button>
+          
+            <div id="resultsArea" class="hidden mt-10 animate-fade-in">
+                <div class="border-t border-slate-100 pt-8">
+                    <h3 data-i18n="tab_meds" class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">Detected Meds</h3>
+                    <div id="medList" class="flex flex-wrap gap-2 mb-8"></div>
+
+                    <h3 data-i18n="tab_report" class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">Safety Report</h3>
+                    <div id="interactionCards" class="space-y-4"></div>
+                    
+                    <div id="noRisk" data-i18n="no_risk" class="hidden p-4 bg-green-50 text-green-700 rounded-lg border border-green-100 font-medium">
+                        No significant interactions found in the FDA database.
+                    </div>
+                    <button id="btnDownload" class="hidden w-full mt-6 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl transition-all flex justify-center items-center shadow-md">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                       <span data-i18n="btn_pdf">Download Medical Report (PDF)</span>
+                    </button>
+                    <p id="disclaimer" class="mt-10 text-xs text-slate-400 leading-relaxed italic"></p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+   <script>
+    // 1. CONFIGURATION
+    const API_URL = window.location.origin;
+    let currentData = null;
+    let currentLang = localStorage.getItem('preferredLang') || 'en';
+
+    // 2. TRADUCCIONES (Mantenidas aquí para evitar errores de fetch local)
+    const translations = {
+        en: {
+            title: "MediGuard - Safety First",
+            header_subtitle: "Prescription Analyzer",
+            upload_desc: "Upload a clear photo of your medication list to check for FDA-documented risks.",
+            drop_text: "Tap to upload or drop photo",
+            drop_subtext: "JPG, PNG or HEIC supported",
+            btn_analyze: "Analyze Medications",
+            tab_meds: "Detected Meds",
+            tab_report: "Safety Report",
+            no_risk: "No significant interactions found in the FDA database.",
+            btn_pdf: "Download Medical Report (PDF)",
+            pdf_title: "Clinical Interaction Report",
+            pdf_med_col: "Medication Pair",
+            pdf_severity_col: "Severity",
+            pdf_risk_col: "Risk Description",
+            pdf_action_col: "Recommended Action",
+            disclaimer_default: "Consult a doctor for medical advice.",
+            api_warning: "API Key not configured. Analysis will not work."
+        },
+        es: {
+            title: "MediGuard - Seguridad Ante Todo",
+            header_subtitle: "Analizador de Recetas",
+            upload_desc: "Sube una foto clara de tu lista de medicamentos para detectar riesgos de la FDA.",
+            drop_text: "Toca para subir o arrastra la foto",
+            drop_subtext: "Formatos JPG, PNG o HEIC soportados",
+            btn_analyze: "Analizar Medicamentos",
+            tab_meds: "Medicinas Detectadas",
+            tab_report: "Informe de Seguridad",
+            no_risk: "No se encontraron interacciones significativas.",
+            btn_pdf: "Descargar Reporte Médico (PDF)",
+            pdf_title: "Informe Clínico de Interacciones",
+            pdf_med_col: "Pareja de Medicamentos",
+            pdf_severity_col: "Gravedad",
+            pdf_risk_col: "Descripción del Riesgo",
+            pdf_action_col: "Acción Recomendada",
+            disclaimer_default: "Consulte a un médico para asesoramiento profesional.",
+            api_warning: "Clave API no configurada. El análisis no funcionará."
+        },
+        de: {
+            title: "MediGuard - Sicherheit Zuerst",
+            header_subtitle: "Rezept-Analysator",
+            upload_desc: "Laden Sie ein klares Foto Ihrer Medikamentenliste hoch.",
+            drop_text: "Tippen zum Hochladen oder Foto ziehen",
+            drop_subtext: "JPG, PNG oder HEIC unterstützt",
+            btn_analyze: "Medikamente Analysieren",
+            tab_meds: "Erkannte Medikamente",
+            tab_report: "Sicherheitsbericht",
+            no_risk: "Keine signifikanten Wechselwirkungen gefunden.",
+            btn_pdf: "Medizinischen Bericht herunterladen (PDF)",
+            pdf_title: "Klinischer Interaktionsbericht",
+            pdf_med_col: "Medikamentenpaar",
+            pdf_severity_col: "Schweregrad",
+            pdf_risk_col: "Risikobeschreibung",
+            pdf_action_col: "Empfohlene Maßnahme",
+            disclaimer_default: "Konsultieren Sie einen Arzt.",
+            api_warning: "API-Key nicht konfiguriert. Analyse wird nicht funktionieren."
+        }
+    };
+
+    // 3. ELEMENT SELECTORS
+    const fileInput = document.getElementById('fileInput');
+    const dropzone = document.getElementById('dropzone');
+    const btnAnalyze = document.getElementById('btnAnalyze');
+    const loading = document.getElementById('loading');
+    const resultsArea = document.getElementById('resultsArea');
+
+    function checkApiKey() {
+    const warning = document.getElementById('apiKeyWarning');
+    const key = localStorage.getItem('user_gemini_key');
+    
+    if (!key) {
+        warning.classList.remove('hidden');
+    } else {
+        warning.classList.add('hidden');
+    }
+}
+    // 4. LANGUAGE LOGIC
+    function setLanguage(lang) {
+        currentLang = lang;
+        const dict = translations[lang];
+
+        // Cambiar todos los elementos con data-i18n
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (dict[key]) el.innerText = dict[key];
+        });
+
+        document.title = dict.title;
+        localStorage.setItem('preferredLang', lang);
+        
+        // Si hay un disclaimer visible, actualizarlo
+        if (!currentData) {
+            document.getElementById('disclaimer').textContent = dict.disclaimer_default;
+        }
+    }
+
+    // Inicializar idioma
+    document.addEventListener('DOMContentLoaded', () => {
+        setLanguage(currentLang);
+        checkApiKey(); // <-- Nueva línea
+    });
+
+    // 5. EVENT HANDLERS
+    dropzone.onclick = () => fileInput.click();
+
+    fileInput.onchange = (e) => {
+        if(e.target.files[0]) {
+            document.getElementById('uploadText').innerHTML = 
+                `<span class="text-blue-600 font-bold">${e.target.files[0].name}</span>`;
+        }
+    };
+
+    async function analyze() {
+        if (!fileInput.files[0]) {
+            alert(translations[currentLang].drop_text);
+            return;
+        }
+            // 1. Verificar si el usuario tiene la API Key configurada
+        const userKey = localStorage.getItem('user_gemini_key');
+        if (!userKey) {
+            alert("Please configure your Gemini API Key in Settings first.");
+            window.location.href = "/settings";
+            return;
+        }
+
+        resultsArea.classList.add('hidden');
+        document.getElementById('btnDownload').classList.add('hidden');
+        loading.classList.remove('hidden');
+        btnAnalyze.disabled = true;
+
+    
+        try {
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+            // Enviamos el idioma actual al backend
+            const response = await fetch(`${API_URL}/analyze-prescription/?lang=${currentLang}`, {
+                method: 'POST',
+                headers: {
+                'X-Gemini-Key': userKey // <--- Enviamos la clave del usuario aquí
+                },
+                body: formData
+            });
+           
+
+            const data = await response.json();
+            if (!response.ok) throw new Error(data.detail || "Server error");
+
+            currentData = data;
+            renderResults(data);
+
+            if (data.analysis?.interactions_found) {
+                document.getElementById('btnDownload').classList.remove('hidden');
+            }
+        } catch (error) {
+            alert(`Error: ${error.message}`);
+        } finally {
+            loading.classList.add('hidden');
+            btnAnalyze.disabled = false;
+        }
+    }
+
+    function downloadPDF() {
+        if (!currentData) return;
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        const lang = translations[currentLang];
+
+        doc.setFontSize(22);
+        doc.setTextColor(26, 86, 219);
+        doc.text(lang.title, 14, 20);
+        
+        doc.setFontSize(10);
+        doc.setTextColor(100);
+        doc.text(`${lang.pdf_title} - ${new Date().toLocaleString()}`, 14, 28);
+
+        if (currentData.analysis.interactions_found) {
+            const tableBody = currentData.analysis.details.map(item => [
+                item.pair, item.severity, item.risk, item.action
+            ]);
+
+            doc.autoTable({
+                startY: 50,
+                head: [[lang.pdf_med_col, lang.pdf_severity_col, lang.pdf_risk_col, lang.pdf_action_col]],
+                body: tableBody,
+                headStyles: { fillColor: [26, 86, 219] },
+                didParseCell: function(data) {
+                    if (data.section === 'body' && data.column.index === 1) {
+                        if (data.cell.raw === 'CRITICAL') data.cell.styles.textColor = [220, 38, 38];
+                        if (data.cell.raw === 'CAUTION') data.cell.styles.textColor = [217, 119, 6];
+                    }
+                }
+            });
+        }
+        doc.save(`MediGuard_${currentLang}.pdf`);
+    }
+
+    function renderResults(data) {
+        resultsArea.classList.remove('hidden');
+        const medListContainer = document.getElementById('medList');
+        medListContainer.innerHTML = '';
+        
+        data.detected_medications?.forEach(m => {
+            const span = document.createElement('span');
+            span.className = "px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-sm font-medium border border-slate-200";
+            span.textContent = m;
+            medListContainer.appendChild(span);
+        });
+
+        const container = document.getElementById('interactionCards');
+        container.innerHTML = '';
+        const analysis = data.analysis;
+
+        if (analysis?.interactions_found) {
+            document.getElementById('noRisk').classList.add('hidden');
+            analysis.details.forEach(item => {
+                const isCritical = item.severity === 'CRITICAL';
+                const color = isCritical ? 'red' : 'amber';
+                const div = document.createElement('div');
+                div.className = `p-4 border-l-4 border-${color}-500 bg-${color}-50 rounded-r-lg shadow-sm mb-4`;
+                div.innerHTML = `
+                    <h4 class="font-bold text-${color}-900">${item.pair}</h4>
+                    <p class="text-sm text-${color}-800 mt-1">${item.risk}</p>
+                    <p class="text-xs font-bold mt-2 text-${color}-700 uppercase italic">Advice: ${item.action}</p>
+                `;
+                container.appendChild(div);
+            });
+        } else {
+            document.getElementById('noRisk').classList.remove('hidden');
+        }
+        document.getElementById('disclaimer').textContent = analysis?.disclaimer || translations[currentLang].disclaimer_default;
+    }
+
+    btnAnalyze.onclick = analyze;
+    document.getElementById('btnDownload').onclick = downloadPDF;
+</script>
+</body>
+</html>
