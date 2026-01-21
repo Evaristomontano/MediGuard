@@ -1,3 +1,17 @@
+---
+title: MediGuard
+emoji: 🛡️
+colorFrom: slate
+colorTo: blue
+sdk: docker
+app_port: 7860
+pinned: false
+license: mit
+---
+
+# MediGuard: AI-Powered Drug Interaction Analyzer
+
+MediGuard is a web application designed to improve patient safety by identifying potential drug-drug interactions...
 # MediGuard: AI-Powered Drug Interaction Analyzer
 
 MediGuard is a web application designed to improve patient safety by identifying potential drug-drug interactions. The system uses Gemini 2.0 Flash to extract medication names from images and cross-references them with official FDA databases to provide clinical safety insights.
