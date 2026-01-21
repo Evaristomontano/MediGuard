@@ -1,13 +1,16 @@
 ---
 title: MediGuard
 emoji: 🛡️
-colorFrom: slate
-colorTo: blue
+colorFrom: blue
+colorTo: gray
 sdk: docker
 app_port: 7860
 pinned: false
 license: mit
 ---
+
+# MediGuard: AI-Powered Drug Interaction Analyzer
+...
 
 # MediGuard: AI-Powered Drug Interaction Analyzer
 
