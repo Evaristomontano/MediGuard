@@ -142,6 +142,11 @@ async def serve_settings():
     """Serves the settings/configuration page."""
     return FileResponse('settings.html')
 
+@app.get("/about")
+async def serve_about():
+    """Serves the about page."""
+    return FileResponse('about.html')
+
 @app.get("/health")
 async def health_check():
     """Endpoint for monitoring service status."""

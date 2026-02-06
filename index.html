@@ -49,6 +49,23 @@
         <div class="bg-white rounded-2xl shadow-xl p-6 md:p-10">
             <h2 data-i18n="header_subtitle" class="text-2xl font-bold text-slate-800 mb-2">Prescription Analyzer</h2>
             <p data-i18n="upload_desc" class="text-slate-500 mb-8">Upload a clear photo of your medication list to check for FDA-documented risks.</p>
+            <div class="bg-blue-50 border border-blue-100 rounded-xl p-5 mb-8">
+                <h3 data-i18n="intro_title" class="text-sm font-bold text-blue-900 uppercase tracking-widest mb-2">How it works</h3>
+                <p data-i18n="intro_body" class="text-sm text-blue-800 leading-relaxed">
+                    MediGuard helps you analyze medication lists: upload a photo, review detected drugs, and download a safety report. Built to support doctors and nurses worldwide, and it will always remain free.
+                </p>
+                <a href="/about" data-i18n="link_about" class="inline-flex items-center mt-3 text-sm font-bold text-blue-700 hover:text-blue-900 underline">
+                    About the developer
+                </a>
+                <div class="mt-4">
+                    <p data-i18n="share_title" class="text-xs font-bold text-blue-900 uppercase tracking-widest mb-2">Share this web app</p>
+                    <div class="flex flex-wrap gap-2">
+                        <a id="shareWhatsapp" class="px-3 py-2 rounded-full bg-green-100 text-green-700 text-xs font-semibold hover:bg-green-200 transition" target="_blank" rel="noopener noreferrer" data-i18n="share_whatsapp">WhatsApp</a>
+                        <a id="shareTelegram" class="px-3 py-2 rounded-full bg-sky-100 text-sky-700 text-xs font-semibold hover:bg-sky-200 transition" target="_blank" rel="noopener noreferrer" data-i18n="share_telegram">Telegram</a>
+                        <a id="shareEmail" class="px-3 py-2 rounded-full bg-slate-100 text-slate-700 text-xs font-semibold hover:bg-slate-200 transition" data-i18n="share_email">Email</a>
+                    </div>
+                </div>
+            </div>
             <div class="fixed top-4 right-4 flex space-x-2 bg-white p-2 rounded-full shadow-md z-50">
                 <button onclick="setLanguage('en')" class="hover:scale-110 transition-transform w-6">
                     <img src="https://flagcdn.com/us.svg" alt="English">
@@ -127,7 +144,16 @@
             pdf_risk_col: "Risk Description",
             pdf_action_col: "Recommended Action",
             disclaimer_default: "Consult a doctor for medical advice.",
-            api_warning: "API Key not configured. Analysis will not work."
+            api_warning: "API Key not configured. Analysis will not work.",
+            intro_title: "How it works",
+            intro_body: "MediGuard helps you analyze medication lists: upload a photo, review detected drugs, and download a safety report. Built to support doctors and nurses worldwide, and it will always remain free.",
+            link_about: "About the developer",
+            share_title: "Share this web app",
+            share_whatsapp: "WhatsApp",
+            share_telegram: "Telegram",
+            share_email: "Email",
+            share_message: "Check out MediGuard: a free tool that helps analyze medication lists.",
+            share_subject: "MediGuard - Free medication safety helper"
         },
         es: {
             title: "MediGuard - Seguridad Ante Todo",
@@ -146,7 +172,16 @@
             pdf_risk_col: "Descripción del Riesgo",
             pdf_action_col: "Acción Recomendada",
             disclaimer_default: "Consulte a un médico para asesoramiento profesional.",
-            api_warning: "Clave API no configurada. El análisis no funcionará."
+            api_warning: "Clave API no configurada. El análisis no funcionará.",
+            intro_title: "Cómo se usa",
+            intro_body: "MediGuard te ayuda a analizar listas de medicamentos: sube una foto, revisa los fármacos detectados y descarga un informe de seguridad. Creada para apoyar a médicos y enfermeros en todo el mundo, y siempre será gratuita.",
+            link_about: "Sobre el desarrollador",
+            share_title: "Comparte esta web",
+            share_whatsapp: "WhatsApp",
+            share_telegram: "Telegram",
+            share_email: "Correo",
+            share_message: "Mira MediGuard: una herramienta gratuita para analizar listas de medicamentos.",
+            share_subject: "MediGuard - Ayuda gratuita para seguridad de medicamentos"
         },
         de: {
             title: "MediGuard - Sicherheit Zuerst",
@@ -165,7 +200,16 @@
             pdf_risk_col: "Risikobeschreibung",
             pdf_action_col: "Empfohlene Maßnahme",
             disclaimer_default: "Konsultieren Sie einen Arzt.",
-            api_warning: "API-Key nicht konfiguriert. Analyse wird nicht funktionieren."
+            api_warning: "API-Key nicht konfiguriert. Analyse wird nicht funktionieren.",
+            intro_title: "So funktioniert es",
+            intro_body: "MediGuard hilft beim Prüfen von Medikamentenlisten: Foto hochladen, erkannte Arzneien prüfen und einen Sicherheitsbericht herunterladen. Entwickelt, um Ärztinnen/Ärzte und Pflegekräfte weltweit zu unterstützen, und bleibt immer kostenlos.",
+            link_about: "Über den Entwickler",
+            share_title: "Diese Web-App teilen",
+            share_whatsapp: "WhatsApp",
+            share_telegram: "Telegram",
+            share_email: "E-Mail",
+            share_message: "Schau dir MediGuard an: ein kostenloses Tool zur Analyse von Medikamentenlisten.",
+            share_subject: "MediGuard - Kostenlose Hilfe für Medikamentensicherheit"
         }
     };
 
@@ -177,15 +221,36 @@
     const resultsArea = document.getElementById('resultsArea');
 
     function checkApiKey() {
-    const warning = document.getElementById('apiKeyWarning');
-    const key = localStorage.getItem('user_gemini_key');
-    
-    if (!key) {
-        warning.classList.remove('hidden');
-    } else {
-        warning.classList.add('hidden');
+        const warning = document.getElementById('apiKeyWarning');
+        const key = localStorage.getItem('user_gemini_key');
+        
+        if (!key) {
+            warning.classList.remove('hidden');
+        } else {
+            warning.classList.add('hidden');
+        }
     }
-}
+    function updateShareLinks(dict) {
+        const pageUrl = window.location.origin;
+        const message = `${dict.share_message} ${pageUrl}`;
+        const encodedMessage = encodeURIComponent(message);
+        const encodedUrl = encodeURIComponent(pageUrl);
+        const encodedSubject = encodeURIComponent(dict.share_subject);
+
+        const whatsapp = document.getElementById('shareWhatsapp');
+        const telegram = document.getElementById('shareTelegram');
+        const email = document.getElementById('shareEmail');
+
+        if (whatsapp) {
+            whatsapp.href = `https://wa.me/?text=${encodedMessage}`;
+        }
+        if (telegram) {
+            telegram.href = `https://t.me/share/url?url=${encodedUrl}&text=${encodedMessage}`;
+        }
+        if (email) {
+            email.href = `mailto:?subject=${encodedSubject}&body=${encodedMessage}`;
+        }
+    }
     // 4. LANGUAGE LOGIC
     function setLanguage(lang) {
         currentLang = lang;
@@ -199,6 +264,7 @@
 
         document.title = dict.title;
         localStorage.setItem('preferredLang', lang);
+        updateShareLinks(dict);
         
         // Si hay un disclaimer visible, actualizarlo
         if (!currentData) {
